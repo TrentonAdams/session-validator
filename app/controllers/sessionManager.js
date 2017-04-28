@@ -1,3 +1,8 @@
+/**
+ * We're only simulating sessions here, so this is just a hack to get the job
+ * done.
+ */
+
 var express = require('express'),
   router = express.Router(),
   mongoose = require('mongoose'),
@@ -8,11 +13,6 @@ module.exports = function (app)
   app.use('/', router);
 };
 
-/**
- * We're only simulating sessions here.
- *
- * @type {{sessionValid: boolean, sessionTime: number}}
- */
 var session = {
   sessionValid: true,
   sessionTime: 600

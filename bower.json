@@ -4,6 +4,20 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "components"
-  ]
+    "components",
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "authors": [
+    "Trenton D. Adams <trent@trentonadams.ca>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "devDependencies": {
+    "jasmine-core": "jasmine#^2.6.1"
+  }
 }
