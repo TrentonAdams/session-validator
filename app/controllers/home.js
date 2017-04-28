@@ -23,13 +23,13 @@ router.get('/', function (req, res, next)
 
     // handle html and json responses, so that unit tests can get a sane
     // response.
-    if (req.accepts('json'))
+    if (req.accepts('html'))
     {
-      res.send(body);
+      res.render('index', body);
     }
     else
     {
-      res.render('index', body);
+      res.send(body);
     }
   });
 });

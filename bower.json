@@ -19,5 +19,8 @@
   "homepage": "",
   "devDependencies": {
     "jasmine-core": "jasmine#^2.6.1"
+  },
+  "dependencies": {
+    "jquery": "^3.2.1"
   }
 }
