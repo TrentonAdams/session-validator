@@ -1,6 +1,6 @@
 describe("SessionManager tests", function ()
 {
-  let sessionManager = require('../app/sessionManager').SessionManager;
+  let sessionManager = require('../app/session_manager').SessionManager;
   sessionManager.startSession();
 
   it("SessionTimer running", function (done)

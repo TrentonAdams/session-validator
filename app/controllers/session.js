@@ -7,7 +7,7 @@ var express = require('express'),
   router = express.Router(),
   mongoose = require('mongoose'),
   Article = mongoose.model('Article'),
-  sessionManager = require('../sessionManager').SessionManager;
+  sessionManager = require('../session_manager').SessionManager;
 
 module.exports = function (app)
 {
