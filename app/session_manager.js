@@ -5,6 +5,10 @@
 let express = require('express'),
   router = express.Router();
 
+/**
+ * Simulates a session.  There are four primary functions.
+ *
+ */
 class SessionManager
 {
   constructor()
@@ -18,6 +22,11 @@ class SessionManager
     this.terminate = false;
   }
 
+  /**
+   * The sessionCounter
+    * is used with setTimeout() to repeatedly decrement the session time.  Ideally,
+    * we'd look at the start time of the session time.
+   */
   sessionCounter()
   {
     //console.log('.');
@@ -35,6 +44,9 @@ class SessionManager
     //intervalVariable = setInterval(sessionCounter, 1000);
   };
 
+  /**
+   * startSession() starts the 1 second calls of sessionCounter().
+   */
   startSession()
   {
     if (this.intervalVariable === undefined)
@@ -46,6 +58,10 @@ class SessionManager
     }
   };
 
+  /**
+   * expireSession() expires the session and requests termination of
+   * sessionCounter().
+   */
   expireSession()
   {
     //console.log("expiring session timer");
@@ -56,7 +72,7 @@ class SessionManager
     this.terminate = true;
   };
 }
-// singleton
+// singleton not really needed, since require() caches modules.
 let sessionManager = undefined;
 if (sessionManager === undefined)
 {
