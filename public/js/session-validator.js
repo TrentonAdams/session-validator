@@ -15,19 +15,28 @@ class SessionValidator {
   /**
    * Setup the SessionValidator.
    *
-   * @param validate_url The GET url which returns a proper JSON session object
+   * @param {Object} options
+   * @param {String} options.validate_url The GET url which returns a proper JSON session object
    * instance
-   * @param timeout_url The url you'd like to redirect to when the session times
-   * out.
-   * @param callback The callback in the form "function(result){}", where
+   * @param {String} options.refresh_url The url you'd like to support refreshing the session.
+   * null if you do not need this functionality.
+   * @param {String} options.timeout_url The url you'd like to redirect to when the session times
+   * out. nul if you do not need this functionality.
+   * @param {String} options.callback The callback in the form "function(result){}", where
    * result is in the form { sessionValid: true, sessionTime: 600}
+   * @param {String} options.check_frequency How often should the session
+   * check web service be called, in seconds.
    */
-  constructor(validate_url, timeout_url, callback)
+  constructor(options)
   {
-    this.validate_url = validate_url;
-    this.timeout_url = timeout_url;
+    let internalOptions = {check_frequency: 10};
+    jQuery.extend(internalOptions, options);
+    this.validate_url = internalOptions.validate_url;
+    this.refresh_url = internalOptions.refresh_url;
+    this.timeout_url = internalOptions.timeout_url;
     this.intervalId = -1;
-    this.callback = callback;
+    this.callback = internalOptions.callback;
+    this.check_frequency = internalOptions.check_frequency;
   }
 
   /**
@@ -43,7 +52,7 @@ class SessionValidator {
       //console.log(selector);
       let sessionCheck = function ()
       {
-        jQuery.get('http://localhost:3000/check-session', function (data)
+        jQuery.get($this.validate_url, function (data)
         {
           // display minutes for now.
           // if it's less than a minute, we should display seconds?
@@ -66,8 +75,20 @@ class SessionValidator {
       };
       sessionCheck();
 
-      $this.intervalId = setInterval(sessionCheck, 10000);
+      $this.intervalId = setInterval(sessionCheck, $this.check_frequency * 1000);
     });
+  }
+
+  refresh()
+  {
+    let $this = this;
+    if ($this.refresh_url)
+    {
+      jQuery(function ()
+      {
+        jQuery.post($this.refresh_url);
+      });
+    }
   }
 
   /**

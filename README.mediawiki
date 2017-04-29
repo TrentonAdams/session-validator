@@ -25,6 +25,8 @@ As indicated earlier, the data returned should be JSON in the following format.
 
  { sessionValid: true, sessionTime: 600 }
 
+If desired, your web service may also have an option to refresh the session,
+so that the user does not need to leave the current page.
 
 == Usage ==
 === HTML ===

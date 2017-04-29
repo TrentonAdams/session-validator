@@ -16,14 +16,25 @@ module.exports = function (app)
 
 router.get('/check-session', function (req, res, next)
 {
-  var expire = req.param("expire", false);
-  console.log("expire: ", expire);
+  let expire = req.query.expire;
+
   // bad practise changing state with a GET request, this is only a test.
   if (expire === 'true')
   {
     sessionManager.expireSession();
   }
 
+  res.send(sessionManager.session);
+});
+
+router.post('/refresh-session', function (req, res, next)
+{
+  let time = req.body.time;
+  console.log(time);
+  if (sessionManager.session.sessionValid)
+  { // Only manipulate if the current session is valid.
+    sessionManager.session.sessionTime = time?time:600;
+  }
   res.send(sessionManager.session);
 });
 
