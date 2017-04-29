@@ -4,9 +4,7 @@
  */
 
 var express = require('express'),
-  router = express.Router(),
-  mongoose = require('mongoose'),
-  Article = mongoose.model('Article');
+  router = express.Router();
 
 module.exports = function (app)
 {
