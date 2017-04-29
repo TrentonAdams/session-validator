@@ -75,6 +75,11 @@ main page, you can go to...
 
  http://localhost:3000/check-session?expire=true
 
+If you'd like to set the session time to see what happens on the
+main page with an example "I need more time" button, you can...
+
+ curl -d 'time=60' -H 'Accept: application/json' http://localhost:3000/refresh-session
+
 == Documentation ==
 You can generate some quick docs to get an overview of the SessionValidator
 class.
