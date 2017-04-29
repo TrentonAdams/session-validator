@@ -27,7 +27,8 @@ module.exports = function (grunt)
         files: [
           'app.js',
           'app/**/*.js',
-          'config/*.js'
+          'config/*.js',
+          'public/js/*.js'
         ],
         tasks: ['develop', 'delayed-livereload']
       },
@@ -49,7 +50,7 @@ module.exports = function (grunt)
     },
     jsdoc: {
       dist: {
-        src: ['app/**/*.js'],
+        src: ['app/**/*.js', 'public/js/**/*.js'],
         options: {
           destination: 'doc'
         }
