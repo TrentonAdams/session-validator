@@ -13,10 +13,7 @@ from the server...
 
  { sessionValid: true, sessionTime: 600 }
 
-The session time (time before expiry) is in seconds.  The session ajax call
-is only done every 10 seconds, so we recommend using minute based granularity.
-When it's less than 60 seconds, tell the user that the session will expire in
-less than a minute.
+The session time (time before expiry) is in seconds.
 
 == Web Service ==
 Your application must have a web service which does not manipulate the session,
@@ -42,21 +39,31 @@ and your callback function.  A working example for the test web service
 that this project provides is below, and can also be found in the
 validator-example.js ...
 
- let sessionValidator = new SessionValidator(
-   'http://localhost:3000/check-session', /* session web service */
-   'http://localhost:3000/', /* redirect url */
+ function displayTime(result) {
+   jQuery('#session-time').text(Math.ceil(result.sessionTime / 60) + 'm or ' +
+         result.sessionTime + 's');
+ };
+ let sessionValidator = new SessionValidator({validate_url:
+   'http://localhost:3000/check-session', refresh_url:
+   'http://localhost:3000/refresh-session', check_frequency: 1,
+   timeout_url:
+   'http://localhost:3000/timeout', callback:
    function (result)
    {
-     jQuery('#session-time').text(Math.ceil(result.sessionTime / 60) + '-' +
-       result.sessionTime);
-   });
+     displayTime(result);
+     if (result.sessionTime < 60)
+     {
+       jQuery('#more-time').show();
+     }
+   }});
  sessionValidator.monitor();
 
 In the event that the session becomes invalid, the browser will be redirected
 to the redirect url, unless the redirect url is null.
 
 == Playing ==
-You can play with the services to see how they work.
+This project provides a facility for playing around, so  that you can see how
+it all fits together.
 
  git clone https://github.com/TrentonAdams/session-validator.git
  cd session-validator
@@ -65,8 +72,9 @@ You can play with the services to see how they work.
  bower install
  grunt
 
-Now visit http://localhost:3000.  This main page creates a new session with a
-10 minute timer.  If you'd like to see the web service results, go to...
+Now visit http://localhost:3000; this first visit starts the session counter.
+This main page creates a new session with a 10 minute timer.  If you'd like to
+see the web service results, go to...
 
  # visit http://localhost:3000/check-session in your browser or
  curl -H 'Accept: application/json' http://localhost:3000/check-session
@@ -76,8 +84,9 @@ main page, you can go to...
 
  http://localhost:3000/check-session?expire=true
 
-If you'd like to set the session time to see what happens on the
-main page with an example "I need more time" button, you can...
+If you'd like to set the session time to 60 seconds or less, to see what
+happens on the main page with an example "I need more time" button, you can
+set the session time manually (after you've visited the page once)...
 
  curl -d 'time=60' -H 'Accept: application/json' http://localhost:3000/refresh-session
 
