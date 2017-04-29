@@ -4,3 +4,4 @@ public/components
 .sass-cache
 out/
 doc/
+dist/

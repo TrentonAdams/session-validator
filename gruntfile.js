@@ -1,6 +1,7 @@
 'use strict';
 
 var request = require('request');
+var assets = require('./config/assets.js');
 
 module.exports = function (grunt)
 {
@@ -15,7 +16,8 @@ module.exports = function (grunt)
     pkg: grunt.file.readJSON('package.json'),
     develop: {
       server: {
-        file: 'app.js'
+        // run the babelified app.
+        file: 'dist/app.js'
       }
     },
     watch: {
@@ -55,7 +57,45 @@ module.exports = function (grunt)
           destination: 'doc'
         }
       }
-    }
+    },
+    babel: {
+      options: {
+        sourceMap: true,
+        presets: ['es2015']
+      },
+      dist: {
+        files: [
+          {
+            expand: true,
+            cwd: './',
+            src: ['app/**/*.js', 'app.js', 'config/*.js', 'public/js/*.js'],
+            dest: 'dist',
+            ext: '.js'
+          }]
+      }
+    },
+    clean: {
+        build: ['build/'],
+        dist: ['dist/']
+    },
+    copy: {
+      dist: {
+        files: [
+          {
+            expand: true,
+            src: [
+              'app/**/*', 'config/**'],
+            dest: 'dist/'
+          },
+          {
+            expand: false,
+            src: [
+              assets.public],
+            dest: 'dist/'
+          }
+        ]
+      }
+    },
   });
 
   grunt.config.requires('watch.js.files');
@@ -63,6 +103,8 @@ module.exports = function (grunt)
   files = grunt.file.expand(files);
 
   grunt.loadNpmTasks('grunt-jsdoc');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   grunt.registerTask('delayed-livereload',
     'Live reload after the node server has restarted.', function ()
@@ -84,6 +126,9 @@ module.exports = function (grunt)
     });
 
   grunt.registerTask('default', [
+    'clean',
+    'copy',
+    'babel',
     'develop',
     'watch',
   ]);
