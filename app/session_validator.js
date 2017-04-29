@@ -4,12 +4,16 @@
  * { sessionValid: true, sessionTime: 600, }.  The given service should not
  * manipulate the session in any way, it should simply return information about
  * the session.
- *
+ * <p/>
  * This class also requires jQuery to be present.
- *
+ * <p/>
  * A jQuery element will have it's HTML updated to include the number of
  * seconds left in the session.  when sessionValid is false, a redirect will
  * occur to the timeout_url.
+ * <p/>
+ * It is important to note that any styling or prefix wording should be
+ * controlled by the page designer, we do nothing except inject the number
+ * of seconds left in the session.
  */
 class SessionValidator {
   /**

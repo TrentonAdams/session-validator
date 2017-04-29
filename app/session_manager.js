@@ -1,12 +1,14 @@
 /**
- * We're only simulating sessions here, so this is just a hack to get the job
- * done.
  */
 let express = require('express'),
   router = express.Router();
 
 /**
  * Simulates a session.  There are four primary functions.
+ * <p/>
+ * We're only simulating sessions here, so this is just a hack to get the job
+ * done.  The count down of the session may not be accurate, and one single
+ * session is shared through the entire application.  i.e. For testing only.
  *
  */
 class SessionManager
