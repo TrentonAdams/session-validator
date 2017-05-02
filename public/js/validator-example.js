@@ -6,8 +6,7 @@ function displayTime(result) {
 let sessionValidator = new SessionValidator({validate_url:
   'http://localhost:3000/check-session', refresh_url:
   'http://localhost:3000/refresh-session', check_frequency: 1,
-  timeout_url:
-  'http://localhost:3000/timeout', callback:
+  timeout_url: 'http://localhost:3000/timeout', callback:
   function (result)
   {
     displayTime(result);

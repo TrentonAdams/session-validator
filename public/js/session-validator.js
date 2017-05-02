@@ -12,17 +12,21 @@
  * is no need to wrap your code in a jQuery(function(){}) block
  */
 class SessionValidator {
+
   /**
    * Setup the SessionValidator.
    *
    * @param {Object} options
-   * @param {String} options.validate_url The GET url which returns a proper JSON session object
-   * instance
-   * @param {String} options.refresh_url The url you'd like to support refreshing the session.
-   * null if you do not need this functionality.
-   * @param {String} options.timeout_url The url you'd like to redirect to when the session times
+   * @param {String} options.validate_url The GET url which returns a proper
+   * JSON session object instance
+   * @param {String} options.refresh_url The url you'd like to support
+   * refreshing the session. null if you do not need this functionality.  See
+   * the refresh() method for more information.
+   * @param {String} options.timeout_url The url you'd like to redirect to when
+   * the session times
    * out. nul if you do not need this functionality.
-   * @param {String} options.callback The callback in the form "function(result){}", where
+   * @param {String} options.callback The callback in the form
+   * "function(result){}", where
    * result is in the form { sessionValid: true, sessionTime: 600}
    * @param {String} options.check_frequency How often should the session
    * check web service be called, in seconds.
@@ -50,14 +54,16 @@ class SessionValidator {
     jQuery(function ()
     {
       //console.log(selector);
+      /**
+       * Checks if the session is valid by making an ajax call to the session
+       * validate url.
+       */
       let sessionCheck = function ()
       {
         jQuery.get($this.validate_url, function (data)
         {
-          // display minutes for now.
-          // if it's less than a minute, we should display seconds?
           //console.log(data);
-          $this.callback(data)
+          $this.callback(data);
           if (!data.sessionValid && $this.timeout_url)
           {
             window.location.href = $this.timeout_url;
@@ -73,12 +79,17 @@ class SessionValidator {
           }, 60000);
         });
       };
+
+      // check once the first time, and set an interval afterwards
       sessionCheck();
 
       $this.intervalId = setInterval(sessionCheck, $this.check_frequency * 1000);
     });
   }
 
+  /**
+   * The refresh url should accept a simple empty post, with no parameters.
+   */
   refresh()
   {
     let $this = this;
@@ -92,7 +103,7 @@ class SessionValidator {
   }
 
   /**
-   * Stops the session monitoring by clearing the monitor.
+   * Stops the session monitoring by using clearInterval().
    */
   stop()
   {
