@@ -44,7 +44,7 @@ class SessionValidator {
   }
 
   /**
-   * Starts the session monitoring process by using setInterval().  We get
+   * Starts the session monitoring process by using setTimeout().  We get
    * the session time left every 10 seconds, subsequently calling the callback.
    */
   monitor()
@@ -60,6 +60,11 @@ class SessionValidator {
        */
       let sessionCheck = function ()
       {
+        if ($this.terminate === true)
+        {
+          return;
+        }
+
         jQuery.get($this.validate_url, function (data)
         {
           //console.log(data);
@@ -69,7 +74,7 @@ class SessionValidator {
             window.location.href = $this.timeout_url;
           }
         }).fail(function ()
-        {
+        { // utter failure, let's just try it all again in another minute.
           console.log('an error occurred monitoring the session, stopping, ' +
             'trying again in 60 seconds');
           $this.stop();
@@ -77,13 +82,15 @@ class SessionValidator {
           { // attempt to start again in 60 seconds
             $this.monitor()
           }, 60000);
+        }).done(function ()
+        { // success, check again in x seconds.
+          $this.intervalId =
+            setTimeout(sessionCheck, $this.check_frequency * 1000);
         });
       };
 
       // check once the first time, and set an interval afterwards
       sessionCheck();
-
-      $this.intervalId = setInterval(sessionCheck, $this.check_frequency * 1000);
     });
   }
 
@@ -107,7 +114,7 @@ class SessionValidator {
    */
   stop()
   {
-    clearInterval(this.intervalId);
+    this.terminate = true;
     console.log('monitoring of session stopped');
   }
 }
