@@ -32,7 +32,7 @@ module.exports = function (grunt)
           'config/*.js',
           'public/js/*.js'
         ],
-        tasks: ['develop', 'delayed-livereload']
+        tasks: ['clean', 'copy', 'babel', 'develop', 'delayed-livereload']
       },
       css: {
         files: [
