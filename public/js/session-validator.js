@@ -187,4 +187,4 @@ class SessionValidator {
   }
 }
 
-expores.SessionValidator = SessionValidator;
+exports.SessionValidator = SessionValidator;
