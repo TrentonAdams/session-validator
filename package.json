@@ -1,6 +1,6 @@
 {
   "name": "session-validator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "public/js/session-validator.js",
   "scripts": {
     "start": "node app.js",
