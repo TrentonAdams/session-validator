@@ -133,4 +133,10 @@ module.exports = function (grunt)
     'watch',
   ]);
 
+  grunt.registerTask('dist', [
+    'clean',
+    'copy',
+    'babel'
+  ]);
+
 };
