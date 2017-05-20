@@ -1,7 +1,7 @@
 {
   "name": "session-validator",
   "version": "1.0.1",
-  "main": "app.js",
+  "main": "public/js/session-validator.js",
   "scripts": {
     "start": "node app.js",
     "test": "NODE_ENV=test jasmine",
