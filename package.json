@@ -41,5 +41,19 @@
     "request": "^2.60.0",
     "supertest": "^2.0.0",
     "time-grunt": "^1.2.1"
-  }
+  },
+  "description": "== Session Validator == So that there is no confusion, it is important to note that the only file you need from this project, for it to work in your project, is the session-validator.js and jQuery.  You can obtain this file by simply grabbing it manually or installing it through npm.  Read this document once, and you'll be on your way.",
+  "directories": {
+    "doc": "doc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TrentonAdams/session-validator.git"
+  },
+  "author": "Trenton D. Adams",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/TrentonAdams/session-validator/issues"
+  },
+  "homepage": "https://github.com/TrentonAdams/session-validator#readme"
 }

@@ -31,6 +31,7 @@ router.post('/refresh-session', function (req, res, next)
   console.log(time);
   if (sessionManager.session.sessionValid)
   { // Only manipulate if the current session is valid.
+    // if no "time" parameter submitted, set to 600 seconds.
     sessionManager.session.sessionTime = time?time:600;
   }
   res.send(sessionManager.session);

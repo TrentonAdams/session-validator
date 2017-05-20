@@ -1,15 +1,63 @@
 /**
  * This class defines and implements an HTTP session validator.  It requires a
- * web service which returns a valid JSON session object in the form
- * { sessionValid: true, sessionTime: 600 }.  The given service should not
- * manipulate the session in any way, it should simply return information about
- * the session in the specified format.
+ * web service which returns a valid JSON session object in the form indicated
+ * below  The given service should not manipulate the session in any way, it
+ * should simply return information about the session in the specified format.
  * <p/>
  * This class also requires jQuery to be present.
  * <p/>
  * Once a result from the server is obtained, the callback will be called.
  * The jQuery document ready has already been fired at this point, and there
  * is no need to wrap your code in a jQuery(function(){}) block
+ *
+ * @example
+ * // The web service should simply return a json object like this...
+ * curl -H 'Accept: application/json' http://localhost:3000/check-session
+ * { sessionValid: true, sessionTime: 600 }
+ *
+ * // The following code will work with the example html snippet at the bottom.
+ *   function displayTime(result) {
+ *     jQuery('#session-time').text(Math.ceil(result.sessionTime / 60) + 'm or ' +
+ *           result.sessionTime + 's');
+ *   };
+ *   let sessionValidator = new SessionValidator({validate_url:
+ *     'http://localhost:3000/check-session', refresh_url:
+ *     'http://localhost:3000/refresh-session', check_frequency: 1,
+ *     timeout_url: 'http://localhost:3000/timeout', callback:
+ *     function (result)
+ *     {
+ *       displayTime(result);
+ *       if (result.sessionTime < 60)
+ *       {
+ *         jQuery('#more-time').show();
+ *       }
+ *     }});
+ *   sessionValidator.monitor();
+ *
+ *   jQuery(function ()
+ *   {
+ *     jQuery('#refresh').unbind('click').bind('click', function(event)
+ *     {
+ *       sessionValidator.refresh();
+ *       jQuery('#more-time').hide();
+ *       displayTime({sessionValid: true, sessionTime: 600});
+ *     });
+ *   });
+ *
+ * // With the above code, the following will occur...
+ * // The "more-time" div will be displayed when less than 1 minute is left in
+ * // the session
+ *
+ * // The "refresh" button can be clicked to refresh the time
+ *
+ * // The "session-time" will have it's contents replaced with the time left.
+ * <div>
+ *   <span id="session-message">Your session will expire in:</span>
+ *   <span id="session-time"></span>
+ * </div>
+ * <div id="more-time" style="display:none;">
+ *   <button id="refresh" name="I need more time">I need more time</button>
+ * </div>
  */
 class SessionValidator {
 
@@ -30,6 +78,7 @@ class SessionValidator {
    * result is in the form { sessionValid: true, sessionTime: 600}
    * @param {String} options.check_frequency How often should the session
    * check web service be called, in seconds.
+   *
    */
   constructor(options)
   {
@@ -118,3 +167,5 @@ class SessionValidator {
     console.log('monitoring of session stopped');
   }
 }
+
+expores.SessionValidator = SessionValidator;
