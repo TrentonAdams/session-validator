@@ -7,7 +7,7 @@
     "prepublish": "grunt dist",
     "test": "NODE_ENV=test jasmine"
   },
-  "files": ["dist/**"],
+  "files": ["**/*"],
   "dependencies": {
     "express": "^4.13.3",
     "serve-favicon": "^2.3.0",
